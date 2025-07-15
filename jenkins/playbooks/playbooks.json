@@ -1,0 +1,313 @@
+{
+  "type": "workflow_collections",
+  "data": [
+    {
+      "@type": "WorkflowCollection",
+      "name": "Sample - Jenkins - 1.0.0",
+      "description": "Sample playbooks for \"Jenkins\" connector. If you are planning to use any of the sample playbooks in your environment, ensure that you clone those playbooks and move them to a different collection, since the sample playbook collection gets deleted during connector upgrade and delete.",
+      "visible": true,
+      "image": "",
+      "uuid": "12ca67df-83bb-408a-804c-ee036552863a",
+      "id": 424,
+      "deletedAt": null,
+      "importedBy": [],
+      "recordTags": [
+        "jenkins",
+        "Jenkins"
+      ],
+      "workflows": [
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Execute an API Request",
+          "aliasName": null,
+          "tag": "#Jenkins",
+          "description": "Sends an API request to any API endpoint based on specified HTTP method, endpoint, and other input parameters that you have specified, enabling flexible API interactions tailored to user needs.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": 1752577825,
+          "collection": "/api/3/workflow_collections/12ca67df-83bb-408a-804c-ee036552863a",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/20abf5f0-7cb4-4796-aeeb-dc2ca01d56ae",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Execute an API Request",
+              "description": null,
+              "arguments": {
+                "name": "Jenkins",
+                "config": "a272c2ec-eb33-4c37-aee0-b5ac5b7e6ab5",
+                "params": {
+                  "method": "POST",
+                  "payload": "{\"NAME\":\"admin\",\"ENVIRONMENT\":\"production\"}",
+                  "endpoint": "/job/jenkins-job-name/buildWithParameters",
+                  "query_params": []
+                },
+                "version": "1.0.0",
+                "connector": "jenkins",
+                "operation": "generic_rest_api_call",
+                "operationTitle": "Execute an API Request",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "160",
+              "left": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "f413a195-4a6c-4845-b29f-a6b7998346eb"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "02e16ada-70c5-47a9-aba2-36a6233e728e",
+                "title": "Jenkins: Execute an API Request",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "30",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "20abf5f0-7cb4-4796-aeeb-dc2ca01d56ae"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Execute an API Request",
+              "targetStep": "/api/3/workflow_steps/f413a195-4a6c-4845-b29f-a6b7998346eb",
+              "sourceStep": "/api/3/workflow_steps/20abf5f0-7cb4-4796-aeeb-dc2ca01d56ae",
+              "label": null,
+              "isExecuted": false,
+              "group": null,
+              "uuid": "1daab8c7-3c5e-4310-9a78-5066c343610c"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "0a97fe83-c423-4f7e-86c3-e5eec948218f",
+          "id": 4805,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "jenkins",
+            "Jenkins"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Get Job Status",
+          "aliasName": null,
+          "tag": "#Jenkins",
+          "description": "Retrieves the current status and details of the specified Jenkins job.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": 1752577791,
+          "collection": "/api/3/workflow_collections/12ca67df-83bb-408a-804c-ee036552863a",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/8e1e0cf0-f670-4d95-831a-53661ad782e4",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Get Job Status",
+              "description": null,
+              "arguments": {
+                "name": "Jenkins",
+                "config": "a272c2ec-eb33-4c37-aee0-b5ac5b7e6ab5",
+                "params": {
+                  "job_name": "jenkins-job-name",
+                  "build_number": "10"
+                },
+                "version": "1.0.0",
+                "connector": "jenkins",
+                "operation": "get_job_status",
+                "operationTitle": "Get Job Status",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "160",
+              "left": "120",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "3d9a7d6e-e1ec-46c3-bfc9-7c808b98fdbb"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "af0d604c-35d9-48cc-982d-36e40caa34e5",
+                "title": "Jenkins: Get Job Status",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "30",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "8e1e0cf0-f670-4d95-831a-53661ad782e4"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Get Job Status",
+              "targetStep": "/api/3/workflow_steps/3d9a7d6e-e1ec-46c3-bfc9-7c808b98fdbb",
+              "sourceStep": "/api/3/workflow_steps/8e1e0cf0-f670-4d95-831a-53661ad782e4",
+              "label": null,
+              "isExecuted": false,
+              "group": null,
+              "uuid": "97b56ad6-bb0b-4131-b2cd-71d6804ab718"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "29f3c784-173f-4860-a146-187ed3386925",
+          "id": 4806,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "jenkins",
+            "Jenkins"
+          ]
+        },
+        {
+          "@type": "Workflow",
+          "triggerLimit": null,
+          "name": "Trigger Job",
+          "aliasName": null,
+          "tag": "#Jenkins",
+          "description": "Triggers a Jenkins job with specified parameters.",
+          "isActive": false,
+          "debug": false,
+          "singleRecordExecution": false,
+          "remoteExecutableFlag": false,
+          "parameters": [],
+          "synchronous": false,
+          "lastModifyDate": 1752577806,
+          "collection": "/api/3/workflow_collections/12ca67df-83bb-408a-804c-ee036552863a",
+          "versions": [],
+          "triggerStep": "/api/3/workflow_steps/5dce484c-d44c-4f35-868d-7a20ecad673b",
+          "steps": [
+            {
+              "@type": "WorkflowStep",
+              "name": "Start",
+              "description": null,
+              "arguments": {
+                "route": "22b8feb3-59bd-450a-9970-be0ccdaaaa83",
+                "title": "Jenkins: Trigger Job",
+                "resources": [
+                  "alerts"
+                ],
+                "inputVariables": [],
+                "step_variables": {
+                  "input": {
+                    "records": "{{vars.input.records[0]}}"
+                  }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": true,
+                "singleRecordExecution": false
+              },
+              "status": null,
+              "top": "30",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+              "group": null,
+              "uuid": "5dce484c-d44c-4f35-868d-7a20ecad673b"
+            },
+            {
+              "@type": "WorkflowStep",
+              "name": "Trigger Job",
+              "description": null,
+              "arguments": {
+                "name": "Jenkins",
+                "config": "a272c2ec-eb33-4c37-aee0-b5ac5b7e6ab5",
+                "params": {
+                  "job_name": "jenkins-job-name",
+                  "build_parameters": "{\"NAME\":\"admin\",\"ENVIRONMENT\":\"production\"}"
+                },
+                "version": "1.0.0",
+                "connector": "jenkins",
+                "operation": "trigger_job",
+                "operationTitle": "Trigger Job",
+                "step_variables": []
+              },
+              "status": null,
+              "top": "165",
+              "left": "125",
+              "stepType": "/api/3/workflow_step_types/0bfed618-0316-11e7-93ae-92361f002671",
+              "group": null,
+              "uuid": "130e5d87-35e5-4d14-b884-95a6766a8b62"
+            }
+          ],
+          "routes": [
+            {
+              "@type": "WorkflowRoute",
+              "name": "Start-> Trigger Job",
+              "targetStep": "/api/3/workflow_steps/130e5d87-35e5-4d14-b884-95a6766a8b62",
+              "sourceStep": "/api/3/workflow_steps/5dce484c-d44c-4f35-868d-7a20ecad673b",
+              "label": null,
+              "isExecuted": false,
+              "group": null,
+              "uuid": "39c56b51-3ea2-4507-9499-200a17bfdda3"
+            }
+          ],
+          "groups": [],
+          "priority": null,
+          "uuid": "856b77aa-8122-4475-bbfe-3e21b6e47b5d",
+          "id": 4807,
+          "owners": [],
+          "isPrivate": false,
+          "deletedAt": null,
+          "importedBy": [],
+          "recordTags": [
+            "jenkins",
+            "Jenkins"
+          ]
+        }
+      ]
+    }
+  ],
+  "exported_tags": [
+    "jenkins",
+    "Jenkins"
+  ]
+}
