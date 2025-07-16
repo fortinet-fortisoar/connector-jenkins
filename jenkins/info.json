@@ -1,0 +1,194 @@
+{
+  "name": "jenkins",
+  "version": "1.0.0",
+  "label": "Jenkins",
+  "description": "Jenkins is an open-source automation server widely used to implement Continuous Integration (CI) and Continuous Delivery (CD) pipelines. It helps automate the parts of software development related to building, testing, and deploying, facilitating faster and more reliable software delivery.",
+  "publisher": "Fortinet",
+  "cs_approved": true,
+  "cs_compatible": true,
+  "icon_small_name": "small.png",
+  "icon_large_name": "large.png",
+  "category": "DevOps and Digital Operations",
+  "help_online": "",
+  "ingestion_supported": true,
+  "configuration": {
+    "fields": [
+      {
+        "title": "Server URL",
+        "name": "server_url",
+        "type": "text",
+        "description": "Provide the host URL of the jenkins server to connect and perform automated operations.",
+        "tooltip": "Provide the host URL of the jenkins jenkins to connect and perform automated operations.",
+        "required": true,
+        "visible": true,
+        "editable": true
+      },
+      {
+        "title": "Username",
+        "name": "username",
+        "type": "text",
+        "description": "Username of the jenkins server to which you will connect and perform automated operations.",
+        "tooltip": "Username of the jenkins server to which you will connect and perform automated operations.",
+        "visible": true,
+        "editable": true,
+        "required": true
+      },
+      {
+        "title": "API Token",
+        "name": "api_token",
+        "type": "password",
+        "description": "Specify the API token of the jenkins server to which you will connect and perform automated operations.",
+        "tooltip": "Specify the API token of the jenkins server to which you will connect and perform automated operations.",
+        "visible": true,
+        "editable": true,
+        "required": true
+      },
+      {
+        "title": "Verify SSL",
+        "name": "verify_ssl",
+        "type": "checkbox",
+        "description": "Specifies whether the SSL certificate for the server is to be verified. By default, this option is selected, i.e., set to true.",
+        "tooltip": "Specifies whether the SSL certificate for for the server is to be verified or not. By default, this option is set as True.",
+        "required": false,
+        "editable": true,
+        "visible": true,
+        "value": true
+      }
+    ]
+  },
+  "operations": [
+    {
+      "operation": "trigger_job",
+      "title": "Trigger Job",
+      "annotation": "trigger_job",
+      "category": "investigation",
+      "description": "Triggers a Jenkins job with specified parameters.",
+      "enabled": true,
+      "visible": true,
+      "parameters": [
+        {
+          "title": "Job Name",
+          "name": "job_name",
+          "description": "Specify the name of the Jenkins job to be triggered.",
+          "tooltip": "Specify the name of the Jenkins job to be triggered.",
+          "type": "text",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "name": "build_parameters",
+          "title": "Build Parameters",
+          "description": "Specify the parameters in JSON format as key-value pairs to be passed to the job",
+          "tooltip": "Specify the parameters in JSON format as key-value pairs to be passed to the job",
+          "type": "json",
+          "required": false,
+          "editable": true,
+          "visible": true
+        }
+      ],
+      "output_schema": {
+        "job_name": "",
+        "build_no": "",
+        "job_build_url": ""
+      }
+    },
+    {
+      "operation": "get_job_status",
+      "title": "Get Job Status",
+      "annotation": "get_job_status",
+      "category": "investigation",
+      "description": "Retrieves the current status and details of the specified Jenkins job.",
+      "enabled": true,
+      "visible": true,
+      "parameters": [
+        {
+          "title": "Job Name",
+          "name": "job_name",
+          "description": "Specify the name of the Jenkins job to retrieve its status and detailed information.",
+          "tooltip": "Specify the name of the Jenkins job to retrieve its status and detailed information.",
+          "type": "text",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Build Number",
+          "name": "build_number",
+          "description": "Specify the build number of the Jenkins job to retrieve its status and detailed information.",
+          "tooltip": "Specify the build number of the Jenkins job to retrieve its status and detailed information.",
+          "type": "text",
+          "required": true,
+          "editable": true,
+          "visible": true
+        }
+      ],
+      "output_schema": {}
+    },
+    {
+      "operation": "generic_rest_api_call",
+      "title": "Execute an API Request",
+      "annotation": "generic_rest_api_call",
+      "description": "Sends an API request to any API endpoint based on specified HTTP method, endpoint, and other input parameters that you have specified, enabling flexible API interactions tailored to user needs.",
+      "category": "investigation",
+      "handler_method": true,
+      "visible": true,
+      "enabled": true,
+      "parameters": [
+        {
+          "title": "Endpoint URL",
+          "type": "text",
+          "name": "endpoint",
+          "description": "Specify the target API URL path for the request. For example, if the website is https://example.com and URL path is https://example.com/api/v2/incidents/search, the endpoint would be /api/v2/incidents/search.",
+          "tooltip": "Specify the target API URL path for the request. For example, if the website is https://example.com and URL path is https://example.com/api/v2/incidents/search, the endpoint would be /api/v2/incidents/search.",
+          "required": true,
+          "visible": true,
+          "editable": true
+        },
+        {
+          "name": "method",
+          "title": "Method",
+          "type": "select",
+          "editable": true,
+          "visible": true,
+          "required": true,
+          "value": "GET",
+          "description": "Select an HTTP action for the request. You can select from the following options: GET, DELETE, PATCH, POST, PUT.",
+          "tooltip": "Select an HTTP action for the request. You can select from the following options: GET, DELETE, PATCH, POST, PUT.",
+          "options": [
+            "DELETE",
+            "GET",
+            "PATCH",
+            "POST",
+            "PUT"
+          ]
+        },
+        {
+          "title": "Query Parameters",
+          "name": "query_params",
+          "type": "json",
+          "editable": true,
+          "visible": true,
+          "required": false,
+          "placeholder": {},
+          "value": {},
+          "description": "(Optional) Specify any optional parameters to add to the URL and refine the request.",
+          "tooltip": "Specify any optional parameters to add to the URL and refine the request."
+        },
+        {
+          "name": "payload",
+          "title": "Payload",
+          "type": "json",
+          "editable": true,
+          "visible": true,
+          "required": false,
+          "placeholder": {},
+          "value": {},
+          "description": "(Optional) Specify data, as JSON, to be sent as the request payload (typically for POST or PUT requests).",
+          "tooltip": "Specify data, as JSON, to be sent as the request payload (typically for POST or PUT requests)."
+        }
+      ],
+      "output_schema": {}
+    }
+  ]
+}
