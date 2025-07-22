@@ -123,7 +123,53 @@
           "visible": true
         }
       ],
-      "output_schema": {}
+      "output_schema": {
+        "_class": "",
+        "actions": [
+          {
+            "_class": "",
+            "parameters": [
+              {
+                "_class": "",
+                "name": "",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "_class": "",
+            "causes": [
+              {
+                "_class": "",
+                "shortDescription": "",
+                "userId": "",
+                "userName": ""
+              }
+            ]
+          }
+        ],
+        "artifacts": [],
+        "building": "",
+        "description": "",
+        "displayName": "",
+        "duration": "",
+        "estimatedDuration": "",
+        "executor": "",
+        "fullDisplayName": "",
+        "id": "",
+        "keepLog": "",
+        "number": "",
+        "queueId": "",
+        "result": "",
+        "timestamp": "",
+        "url": "",
+        "builtOn": "",
+        "changeSet": {
+          "_class": "",
+          "items": [],
+          "kind": ""
+        }
+      }
     },
     {
       "operation": "generic_rest_api_call",
