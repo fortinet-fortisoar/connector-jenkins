@@ -4,12 +4,12 @@
   "label": "Jenkins",
   "description": "Jenkins is an open-source automation server widely used to implement Continuous Integration (CI) and Continuous Delivery (CD) pipelines. It helps automate the parts of software development related to building, testing, and deploying, facilitating faster and more reliable software delivery.",
   "publisher": "Fortinet",
-  "cs_approved": true,
+  "cs_approved": false,
   "cs_compatible": true,
   "icon_small_name": "small.png",
   "icon_large_name": "large.png",
   "category": "DevOps and Digital Operations",
-  "help_online": "",
+  "help_online": "https://github.com/fortinet-fortisoar/connector-jenkins/blob/release/1.0.0/docs/ReadMe.md",
   "ingestion_supported": true,
   "configuration": {
     "fields": [
