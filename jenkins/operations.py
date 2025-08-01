@@ -4,10 +4,11 @@ MIT License
 Copyright (c) 2025 Fortinet Inc
 Copyright end
 """
-
+import json
 import requests
-from requests.auth import HTTPBasicAuth
+import urllib.parse
 from connectors.core.connector import get_logger, ConnectorError
+from requests.auth import HTTPBasicAuth
 
 logger = get_logger('jenkins')
 
@@ -36,8 +37,9 @@ class Jenkins(object):
         try:
             service_endpoint = f'{self.server_url}{endpoint}' if not self.server_url.endswith('/') else f'{self.server_url}/{endpoint}'
             logger.debug("service_endpoint : {}".format(service_endpoint))
-            response = requests.request(method, service_endpoint, auth=HTTPBasicAuth(self.username, self.api_token), params=params,
-                                        data=payload,
+            response = requests.request(method, service_endpoint, auth=HTTPBasicAuth(self.username, self.api_token),
+                                        params=params,
+                                        data=payload, headers=self.headers,
                                         verify=self.verify_ssl)
             logger.debug("Rest API Response Status code : {}".format(response.status_code))
             if response.ok:
@@ -68,13 +70,20 @@ class Jenkins(object):
             raise ConnectorError(str(err))
 
 
+def normalize_job_path(job_path):
+    job_path = job_path.strip("/")
+    if not job_path.startswith("job/"):
+        job_path = "job/" + job_path
+    return "/" + job_path
+
+
 def trigger_job(config, params):
     api_client = Jenkins(config)
-    job_name = params.get('job_name')
+    job_path = normalize_job_path(params.get('job_path', ''))
     build_parameters = params.get('build_parameters')
-    endpoint = f'/job/{job_name}/buildWithParameters'
-    resp = {'job_name': job_name}
-    payload = '&'.join(f"{key}={value}" for key, value in build_parameters.items())
+    endpoint = f'{job_path}/buildWithParameters'
+    resp = {'job_path': job_path}
+    payload = '&'.join(f"{key}={value}" for key, value in build_parameters.items()) if build_parameters else None
     build_url = api_client.make_api_call(endpoint, method='POST', return_headers=True, payload=payload)
     if build_url:
         build_number = build_url.rstrip('/').split('/')[-1] if build_url and '/' in build_url else None
@@ -84,10 +93,36 @@ def trigger_job(config, params):
 
 def get_job_status(config, params):
     api_client = Jenkins(config)
-    job_name = params.get('job_name')
+    job_path = normalize_job_path(params.get('job_path', ''))
     build_number = params.get('build_number')
-    endpoint = f'/job/{job_name}/{build_number}/api/json'
+    endpoint = f'/{job_path}/{build_number}/api/json'
     return api_client.make_api_call(endpoint, method='GET')
+
+
+def get_list_jobs(config, params):
+    api_client = Jenkins(config)
+    job_path = normalize_job_path(params.get('job_path', ''))
+    endpoint = f'{job_path}/api/json' if job_path else '/api/json'
+    return api_client.make_api_call(endpoint, method='GET')
+
+
+def resume_jenkins_job_with_input(config, params):
+    api_client = Jenkins(config)
+    job_path = normalize_job_path(params.get('job_path', ''))
+    build_number = params.get('build_number')
+    input_id = params.get('input_id')
+    input_parameters = params.get('input_parameters')
+    if not isinstance(input_parameters, list):
+        input_parameters = [input_parameters]
+    # Build the Jenkins input submission endpoint
+    endpoint = f'{job_path}/{build_number}/input/{input_id}/submit'
+    payload = None
+    if input_parameters:
+        input_param = json.dumps({"parameter": input_parameters})
+        encoded_json = urllib.parse.quote(input_param)
+        payload = f'json={encoded_json}&proceed=Proceed'
+    resp = api_client.make_api_call(endpoint, 'POST', payload=payload)
+    return {"status": "success", "response": "Provided input submitted successfully"}
 
 
 def generic_rest_api_call(config, params):
@@ -101,12 +136,13 @@ def generic_rest_api_call(config, params):
 
 def _check_health(config):
     api_client = Jenkins(config)
-    logger.error("config: {}".format(config))
     return api_client.make_api_call('/api/json', method='GET')
 
 
 operations = {
+    'get_list_jobs': get_list_jobs,
     'trigger_job': trigger_job,
     'get_job_status': get_job_status,
+    'resume_jenkins_job_with_input': resume_jenkins_job_with_input,
     'generic_rest_api_call': generic_rest_api_call
 }

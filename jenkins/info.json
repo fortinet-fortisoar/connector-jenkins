@@ -58,6 +58,67 @@
   },
   "operations": [
     {
+      "operation": "get_list_jobs",
+      "title": "Get List Jobs",
+      "annotation": "get_list_jobs",
+      "category": "investigation",
+      "description": "Retrieves a list of all available jobs from the Jenkins server.",
+      "enabled": true,
+      "visible": true,
+      "parameters": [
+        {
+          "title": "Job Path",
+          "name": "job_path",
+          "description": "Specify the name or full path of the Jenkins job to retrieve the list of jobs. For jobs inside folders, include the full folder hierarchy using repeated /job/ segments.",
+          "tooltip": "Specify the name or full path of the Jenkins job to retrieve the list of jobs. For jobs inside folders, include the full folder hierarchy using repeated /job/ segments.",
+          "type": "text",
+          "placeholder": "/job/TeamA/job/Backend/job/BuildApp/",
+          "required": false,
+          "editable": true,
+          "visible": true
+        }
+      ],
+      "output_schema": {
+        "_class": "",
+        "assignedLabels": [
+          {}
+        ],
+        "mode": "",
+        "nodeDescription": "",
+        "nodeName": "",
+        "numExecutors": "",
+        "description": "",
+        "jobs": [
+          {
+            "_class": "",
+            "name": "",
+            "url": "",
+            "color": ""
+          }
+        ],
+        "overallLoad": {},
+        "primaryView": {
+          "_class": "",
+          "name": "",
+          "url": ""
+        },
+        "quietingDown": "",
+        "slaveAgentPort": "",
+        "unlabeledLoad": {
+          "_class": ""
+        },
+        "useCrumbs": "",
+        "useSecurity": "",
+        "views": [
+          {
+            "_class": "",
+            "name": "",
+            "url": ""
+          }
+        ]
+      }
+    },
+    {
       "operation": "trigger_job",
       "title": "Trigger Job",
       "annotation": "trigger_job",
@@ -67,11 +128,12 @@
       "visible": true,
       "parameters": [
         {
-          "title": "Job Name",
-          "name": "job_name",
-          "description": "Specify the name of the Jenkins job to be triggered.",
-          "tooltip": "Specify the name of the Jenkins job to be triggered.",
+          "title": "Job Path",
+          "name": "job_path",
+          "description": "Specify the name or full path of the Jenkins job to be triggered. For jobs inside folders, include the full folder hierarchy using repeated /job/ segments",
+          "tooltip": "Specify the name or full path of the Jenkins job to be triggered. For jobs inside folders, include the full folder hierarchy using repeated /job/ segments",
           "type": "text",
+          "placeholder": "/job/TeamA/job/Backend/job/BuildApp/",
           "required": true,
           "editable": true,
           "visible": true
@@ -103,11 +165,12 @@
       "visible": true,
       "parameters": [
         {
-          "title": "Job Name",
-          "name": "job_name",
-          "description": "Specify the name of the Jenkins job to retrieve its status and detailed information.",
-          "tooltip": "Specify the name of the Jenkins job to retrieve its status and detailed information.",
+          "title": "Job Path",
+          "name": "job_path",
+          "description": "Specify the name or full path of the Jenkins job Jenkins job to retrieve its status and detailed information. For jobs inside folders, include the full folder hierarchy using repeated /job/ segments",
+          "tooltip": "Specify the name or full path of the Jenkins job Jenkins job to retrieve its status and detailed information. For jobs inside folders, include the full folder hierarchy using repeated /job/ segments",
           "type": "text",
+          "placeholder": "/job/TeamA/job/Backend/job/BuildApp/",
           "required": true,
           "editable": true,
           "visible": true
@@ -123,7 +186,119 @@
           "visible": true
         }
       ],
-      "output_schema": {}
+      "output_schema": {
+        "_class": "",
+        "actions": [
+          {
+            "_class": "",
+            "parameters": [
+              {
+                "_class": "",
+                "name": "",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "_class": "",
+            "causes": [
+              {
+                "_class": "",
+                "shortDescription": "",
+                "userId": "",
+                "userName": ""
+              }
+            ]
+          }
+        ],
+        "artifacts": [],
+        "building": "",
+        "description": "",
+        "displayName": "",
+        "duration": "",
+        "estimatedDuration": "",
+        "executor": "",
+        "fullDisplayName": "",
+        "id": "",
+        "keepLog": "",
+        "number": "",
+        "queueId": "",
+        "result": "",
+        "timestamp": "",
+        "url": "",
+        "builtOn": "",
+        "changeSet": {
+          "_class": "",
+          "items": [],
+          "kind": ""
+        }
+      }
+    },
+    {
+      "operation": "resume_jenkins_job_with_input",
+      "title": "Resume Jenkins Job with Input",
+      "annotation": "resume_jenkins_job_with_input",
+      "category": "investigation",
+      "description": "Submits input to a paused Jenkins pipeline job that is waiting at a user input to resume execution.",
+      "enabled": true,
+      "visible": true,
+      "parameters": [
+        {
+          "title": "Job Path",
+          "name": "job_path",
+          "description": "Specify the name or full path of the Jenkins job to resume. For jobs inside folders, include the full folder hierarchy using repeated /job/ segments",
+          "tooltip": "Specify the name or full path of the Jenkins job to resume. For jobs inside folders, include the full folder hierarchy using repeated /job/ segments",
+          "type": "text",
+          "placeholder": "/job/TeamA/job/Backend/job/BuildApp/",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Build Number",
+          "name": "build_number",
+          "description": "Specify the build number of the Jenkins job to resume execution with user-provided input.",
+          "tooltip": "Specify the build number of the Jenkins job to resume execution with user-provided input.",
+          "type": "text",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Input ID",
+          "name": "input_id",
+          "description": "Specify the unique identifier for a specific input step or approval request within a Jenkins build.",
+          "tooltip": "Specify the unique identifier for a specific input step or approval request within a Jenkins build.",
+          "type": "text",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Input Parameters",
+          "name": "input_parameters",
+          "description": "Specify the parameters as key-value pairs in JSON format to be passed to the job and resume execution.\nFor example: [{\"name\":\"param1\",\"value\":\"valueOfParam1\"},{\"name\":\"param2\",\"value\":\"valueOfParam2\"}]",
+          "tooltip": "Specify the parameters as key-value pairs in JSON format to be passed to the job and resume execution.\nFor example: [{\"name\":\"param1\",\"value\":\"valueOfParam1\"},{\"name\":\"param2\",\"value\":\"valueOfParam2\"}]",
+          "type": "json",
+          "required": true,
+          "editable": true,
+          "visible": true
+        },
+        {
+          "title": "Job Status",
+          "name": "job_status",
+          "description": "Specify the parameters as key-value pairs in JSON format to be passed to the job and resume execution.\nFor example: [{\"name\":\"param1\",\"value\":\"valueOfParam1\"},{\"name\":\"param2\",\"value\":\"valueOfParam2\"}]",
+          "tooltip": "Specify the parameters as key-value pairs in JSON format to be passed to the job and resume execution.\nFor example: [{\"name\":\"param1\",\"value\":\"valueOfParam1\"},{\"name\":\"param2\",\"value\":\"valueOfParam2\"}]",
+          "type": "select",
+          "required": true,
+          "editable": true,
+          "visible": true
+        }
+      ],
+      "output_schema": {
+        "status": "",
+        "response": ""
+      }
     },
     {
       "operation": "generic_rest_api_call",
